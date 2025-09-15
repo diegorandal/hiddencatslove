@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const temporizadorSpan = document.getElementById('temporizador');
     const mensajeFinal = document.getElementById('mensaje-final');
     const tiempoFinalSpan = document.getElementById('tiempo-final');
+    const sonidoEncontrado = new Audio('cat.wav');
 
     let gatosEncontrados = 0;
     let tiempoInicio;
@@ -99,6 +100,7 @@ function crearMarcaEncontrado(gato, escalaX, escalaY) {
         gatosEncontrados++;
         contadorGatosSpan.textContent = gatosEncontrados;
         crearMarcaEncontrado(gato, escalaX, escalaY);
+    sonidoEncontrado.play();
         alert(gato.mensaje); 
         encontrado = true;
         break;
