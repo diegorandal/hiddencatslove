@@ -1,0 +1,57 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #c198e7;
+}
+
+#juego-contenedor {
+    text-align: center;
+    padding: 20px;
+}
+
+#imagen-marco {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#imagen-principal {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: pointer;
+}
+
+#info-juego {
+    margin: 20px 0;
+    font-size: 1.2em;
+}
+
+.oculto {
+    display: none;
+}
+
+#mensaje-final {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Marca visual para los gatos encontrados */
+.gato-encontrado {
+    border: 2px solid limegreen;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 5;
+    pointer-events: none; /* Para que no bloquee el clic en otros gatos */
+}

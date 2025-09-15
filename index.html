@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐱 Hidden Cats Love</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div id="juego-contenedor">
+        <h1>¡Tamy y Diego Hidden Cats!</h1>
+        <div id="imagen-marco">
+            <img id="imagen-principal" src="cats.png" alt="Imagen del juego con gatos escondidos">
+        </div>
+        <div id="info-juego">
+            <p>Encontrados: <span id="contador-gatos">0</span> / <span id="total-gatos">0</span></p>
+            <p>Tiempo: <span id="temporizador">0s</span></p>
+        </div>
+        <div id="mensaje-final" class="oculto">
+            <h2>¡Felicidades, los encontraste todos!</h2>
+            <p>Tu tiempo final es: <span id="tiempo-final"></span></p>
+        </div>
+    </div>
+    <script src="juego.js"></script>
+</body>
+</html>

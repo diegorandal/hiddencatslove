@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Coordenadas - Acumulador</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        #contenedor-imagen {
+            position: relative;
+            max-width: 1000px;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+        }
+        #imagen-para-editar {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: crosshair;
+        }
+        #coordenadas-contenedor {
+            width: 100%;
+            max-width: 1000px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        #coordenadas-acumuladas {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            padding: 5px;
+            font-family: monospace;
+        }
+        .controles {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .punto-clic {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editor de Coordenadas para Gatos</h1>
+    <p>Haz clic en la imagen para agregar coordenadas. El punto rojo marca la ubicación.</p>
+    <div id="contenedor-imagen">
+        <img id="imagen-para-editar" src="cats.png" alt="Imagen de Gatos para editar">
+    </div>
+    <div id="coordenadas-contenedor">
+        <h3>Coordenadas de los Gatos:</h3>
+        <p>Añade ancho y alto a cada punto para definir el área de clic.</p>
+        <textarea id="coordenadas-acumuladas" readonly></textarea>
+    </div>
+    <div class="controles">
+        <button id="copiar-btn">Copiar Todas las Coordenadas</button>
+        <button id="borrar-btn">Borrar Lista</button>
+    </div>
+
+    <script>
+        const imagen = document.getElementById('imagen-para-editar');
+        const contenedor = document.getElementById('contenedor-imagen');
+        const coordenadasAcumuladas = document.getElementById('coordenadas-acumuladas');
+        const copiarBtn = document.getElementById('copiar-btn');
+        const borrarBtn = document.getElementById('borrar-btn');
+
+        imagen.addEventListener('click', (e) => {
+            const rect = imagen.getBoundingClientRect();
+            
+            // Coordenadas del clic en la pantalla
+            const x_clic = e.clientX - rect.left;
+            const y_clic = e.clientY - rect.top;
+
+            // Escala para convertir a píxeles de la imagen original
+            const escalaX = imagen.naturalWidth / rect.width;
+            const escalaY = imagen.naturalHeight / rect.height;
+            const originalX = Math.round(x_clic * escalaX);
+            const originalY = Math.round(y_clic * escalaY);
+            
+            // Crea un objeto para el nuevo gato, con valores de ancho/alto para rellenar
+            const nuevoGato = `    { id: XX, x: ${originalX}, y: ${originalY}, width: YY, height: ZZ, encontrado: false },\n`;
+            coordenadasAcumuladas.value += nuevoGato;
+            
+            // Agrega un punto visual en el lugar del clic
+            const punto = document.createElement('div');
+            punto.classList.add('punto-clic');
+            punto.style.left = `${x_clic}px`;
+            punto.style.top = `${y_clic}px`;
+            contenedor.appendChild(punto);
+        });
+
+        copiarBtn.addEventListener('click', () => {
+            const texto = coordenadasAcumuladas.value;
+            if (texto) {
+                navigator.clipboard.writeText(texto)
+                    .then(() => {
+                        alert('Coordenadas copiadas al portapapeles.');
+                    })
+                    .catch(err => {
+                        console.error('Error al copiar: ', err);
+                    });
+            } else {
+                alert('No hay coordenadas para copiar.');
+            }
+        });
+
+        borrarBtn.addEventListener('click', () => {
+            coordenadasAcumuladas.value = '';
+            // Borra los puntos visuales
+            const puntos = document.querySelectorAll('.punto-clic');
+            puntos.forEach(punto => punto.remove());
+        });
+    </script>
+</body>
+</html>
